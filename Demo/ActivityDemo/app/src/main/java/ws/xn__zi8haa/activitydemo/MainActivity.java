@@ -1,10 +1,17 @@
 package ws.xn__zi8haa.activitydemo;
 
 import android.app.Activity;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 public class MainActivity extends Activity {
+
+    public final static String TAG = new Object() {
+        public String getClassName() {
+            String clazzName = this.getClass().getName();
+            return clazzName.substring(0, clazzName.lastIndexOf('$'));
+        }
+    }.getClassName();
 
     /**
      * 这个是必须实现的函数，在其中做初始化工作。
@@ -12,12 +19,14 @@ public class MainActivity extends Activity {
      * 当Activity第一次被实例化的时候系统会调用,且整个生命周期只调用1次这个方法。
      * 系统向此方法传递一个 Bundle 对象，其中包含 Activity 的上一状态，不过前提是捕获了该状态。
      * 始终后接 onStart()
+     *
      * @param savedInstanceState
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Log.d(TAG, onGetFunctionName());
     }
 
     /**
@@ -27,17 +36,19 @@ public class MainActivity extends Activity {
     @Override
     protected void onRestart() {
         super.onRestart();
+        Log.d(TAG, onGetFunctionName());
     }
 
 
     /**
-     *在 Activity 即将对用户可见之前调用。
-     *如果 Activity 转入前台，则后接 onResume().
+     * 在 Activity 即将对用户可见之前调用。
+     * 如果 Activity 转入前台，则后接 onResume().
      * 如果 Activity 转入隐藏状态，则后接 onStop()。
      */
     @Override
     protected void onStart() {
         super.onStart();
+        Log.d(TAG, onGetFunctionName());
     }
 
 
@@ -49,6 +60,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
+        Log.d(TAG, onGetFunctionName());
     }
 
     /**
@@ -69,6 +81,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onStop() {
         super.onStop();
+        Log.d(TAG, onGetFunctionName());
     }
 
     /**
@@ -80,5 +93,15 @@ public class MainActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Log.d(TAG, onGetFunctionName());
+    }
+
+
+    /**
+     * 获取当前方法名
+     * @return String funName
+     */
+    public String onGetFunctionName() {
+        return new Throwable().getStackTrace()[1].getMethodName();
     }
 }
